@@ -1,26 +1,26 @@
 import { Router, Request, Response } from 'express';
-// import { body } from 'express-validator';
+import { body } from 'express-validator';
 import { CodeResponsesEnum } from '../types';
-// import { inputValidationMiddleware } from '../middlewares/input-validation-middleware';
+import { inputValidationMiddleware } from '../middlewares/input-validation-middleware';
 import { videosLocalRepository } from '../repositories/videos-repository';
 
 export const videosRouter = Router({});
 
-// const titleValidation = body('title').isString().withMessage('title is invalid').trim().notEmpty().withMessage('title is required').isLength({ max: 40 }).withMessage('title is too long');
-// const authorValidation = body('author').isString().withMessage('author is invalid').trim().notEmpty().withMessage('author is required').isLength({ max: 20 }).withMessage('author is too long');
-// const canBeDownloadedValidation = body('canBeDownloaded', 'can be downloaded is invalid').optional().isBoolean({ strict: true });
-// const minAgeRestrictionValidation = body('minAgeRestriction', 'min age restriction is invalid').optional({ nullable: true }).not().isString().not().isArray().isInt({ min: 1, max: 18 });
-// const publicationDateValidation = body('publicationDate', 'publication date is invalid').optional().not().isArray().isISO8601();
-// const availableResolutionsValidation = body('availableResolutions', 'available resolutions is invalid').optional({ nullable: true }).isArray().custom(value => {
-//     const validValues = ['P144', 'P240', 'P360', 'P480', 'P720', 'P1080', 'P1440', 'P2160'];
-//     const isInvalid = value.some((item: string) => !validValues.includes(item));
-//
-//     if (isInvalid || !value.length) {
-//         return false;
-//     }
-//
-//     return true;
-// });
+const titleValidation = body('title').isString().withMessage('title is invalid').trim().notEmpty().withMessage('title is required').isLength({ max: 40 }).withMessage('title is too long');
+const authorValidation = body('author').isString().withMessage('author is invalid').trim().notEmpty().withMessage('author is required').isLength({ max: 20 }).withMessage('author is too long');
+const canBeDownloadedValidation = body('canBeDownloaded', 'can be downloaded is invalid').optional().isBoolean({ strict: true });
+const minAgeRestrictionValidation = body('minAgeRestriction', 'min age restriction is invalid').optional({ nullable: true }).not().isString().not().isArray().isInt({ min: 1, max: 18 });
+const publicationDateValidation = body('publicationDate', 'publication date is invalid').optional().not().isArray().isISO8601();
+const availableResolutionsValidation = body('availableResolutions', 'available resolutions is invalid').optional({ nullable: true }).isArray().custom(value => {
+    const validValues = ['P144', 'P240', 'P360', 'P480', 'P720', 'P1080', 'P1440', 'P2160'];
+    const isInvalid = value.some((item: string) => !validValues.includes(item));
+
+    if (isInvalid || !value.length) {
+        return false;
+    }
+
+    return true;
+});
 
 videosRouter.get('/', (req: Request, res: Response) => {
     const foundVideos = videosLocalRepository.findVideos();
@@ -39,13 +39,13 @@ videosRouter.get('/:videoId', (req: Request, res: Response) => {
 });
 
 videosRouter.post('/',
-    // titleValidation,
-    // authorValidation,
-    // canBeDownloadedValidation,
-    // minAgeRestrictionValidation,
-    // publicationDateValidation,
-    // availableResolutionsValidation,
-    // inputValidationMiddleware,
+    titleValidation,
+    authorValidation,
+    canBeDownloadedValidation,
+    minAgeRestrictionValidation,
+    publicationDateValidation,
+    availableResolutionsValidation,
+    inputValidationMiddleware,
     (req: Request, res: Response) => {
         const newVideo = videosLocalRepository.createVideo(req.body);
 
@@ -54,13 +54,13 @@ videosRouter.post('/',
 );
 
 videosRouter.put('/:videoId',
-    // titleValidation,
-    // authorValidation,
-    // canBeDownloadedValidation,
-    // minAgeRestrictionValidation,
-    // publicationDateValidation,
-    // availableResolutionsValidation,
-    // inputValidationMiddleware,
+    titleValidation,
+    authorValidation,
+    canBeDownloadedValidation,
+    minAgeRestrictionValidation,
+    publicationDateValidation,
+    availableResolutionsValidation,
+    inputValidationMiddleware,
     (req: Request, res: Response) => {
         const updatedVideo = videosLocalRepository.updateVideo(+req.params.videoId, req.body);
 
